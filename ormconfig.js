@@ -1,4 +1,10 @@
 const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 
 var dbConfig = {
   synchronize: true,
@@ -11,12 +17,12 @@ var dbConfig = {
 switch (process.env.NODE_ENV) {
   case 'development':
     Object.assign(dbConfig, {
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'optisol',
-      database: 'nestjs',
+      type: process.env.DB_TYPE,
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       entities: ['**/*.entity.js'],
       migrationsRun: true,
     });
